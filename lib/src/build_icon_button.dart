@@ -78,17 +78,19 @@ class BuildIconButton extends StatelessWidget {
           alignment: Alignment.bottomCenter,
           children: <Widget>[
             Transform.scale(
-              scale: _bottomIconScale(),
-              child: Opacity(
+                scale: _bottomIconScale(),
+                child: Opacity(
                   opacity: controller.value > 0.8 && seletedIndex == index
                       ? 0.0
                       : 1.0,
-                  child: Icon(
-                    unslectedIcon,
-                    size: iconSize,
-                    color: inactiveColor,
-                  )),
-            ),
+                  child: Transform.scale(
+                      scaleY: -1,
+                      child: Icon(
+                        unslectedIcon,
+                        size: iconSize,
+                        color: inactiveColor,
+                      )),
+                )),
             Transform.scale(
               scale: _topIconScale(),
               child: ClipOval(
@@ -96,15 +98,17 @@ class BuildIconButton extends StatelessWidget {
                   radius: _clipRadius(),
                 ),
                 child: Opacity(
-                  opacity: controller.value > 0.6 && seletedIndex == index
-                      ? 1.0
-                      : 0.0,
-                  child: Icon(
-                    selectedIcon,
-                    size: iconSize,
-                    color: color,
-                  ),
-                ),
+                    opacity: controller.value > 0.6 && seletedIndex == index
+                        ? 1.0
+                        : 0.0,
+                    child: Transform.scale(
+                      scaleY: -1,
+                      child: Icon(
+                        selectedIcon,
+                        size: iconSize,
+                        color: color,
+                      ),
+                    )),
               ),
             ),
           ],
