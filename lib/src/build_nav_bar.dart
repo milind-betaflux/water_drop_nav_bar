@@ -90,50 +90,52 @@ class _WaterDropNavBarState extends State<WaterDropNavBar>
     final double bottomPadding =
         widget.bottomPadding ?? MediaQuery.of(context).padding.bottom;
     final double barHeight = 60 + bottomPadding;
-    return Container(
-      height: barHeight,
-      color: backgroundColor,
-      child: Stack(
-        children: <Widget>[
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: AnimatedBuilder(
-              animation: _controller,
-              builder: (_, __) => Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                // crossAxisAlignment: CrossAxisAlignment.end,
-                children: items.map(
-                  (BarItem item) {
-                    final int index = items.indexOf(item);
-                    return BuildIconButton(
-                      bottomPadding: bottomPadding,
-                      barHeight: barHeight,
-                      barColor: backgroundColor,
-                      inactiveColor: inactiveIconColor,
-                      color: dropColor,
-                      index: index,
-                      iconSize: iconSize,
-                      seletedIndex: selectedIndex.toInt(),
-                      controller: _controller,
-                      selectedIcon: item.filledIcon,
-                      unslectedIcon: item.outlinedIcon,
-                      onPressed: () => _onTap(index),
-                    );
-                  },
-                ).toList(),
+    return Transform.scale(
+        scaleY: -1,
+        child: Container(
+          height: barHeight,
+          color: backgroundColor,
+          child: Stack(
+            children: <Widget>[
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: AnimatedBuilder(
+                  animation: _controller,
+                  builder: (_, __) => Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    // crossAxisAlignment: CrossAxisAlignment.end,
+                    children: items.map(
+                      (BarItem item) {
+                        final int index = items.indexOf(item);
+                        return BuildIconButton(
+                          bottomPadding: bottomPadding,
+                          barHeight: barHeight,
+                          barColor: backgroundColor,
+                          inactiveColor: inactiveIconColor,
+                          color: dropColor,
+                          index: index,
+                          iconSize: iconSize,
+                          seletedIndex: selectedIndex.toInt(),
+                          controller: _controller,
+                          selectedIcon: item.filledIcon,
+                          unslectedIcon: item.outlinedIcon,
+                          onPressed: () => _onTap(index),
+                        );
+                      },
+                    ).toList(),
+                  ),
+                ),
               ),
-            ),
+              BuildRunningDrop(
+                itemCount: items.length,
+                controller: _controller,
+                selectedIndex: selectedIndex,
+                previousIndex: _previousIndex,
+                color: dropColor,
+              )
+            ],
           ),
-          BuildRunningDrop(
-            itemCount: items.length,
-            controller: _controller,
-            selectedIndex: selectedIndex,
-            previousIndex: _previousIndex,
-            color: dropColor,
-          )
-        ],
-      ),
-    );
+        ));
   }
 
   @override
