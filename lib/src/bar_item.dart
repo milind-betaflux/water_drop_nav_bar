@@ -6,8 +6,12 @@ class BarItem {
 
   /// Normal or inactive icon must be outlined icon and complementary to active icon.
   final IconData outlinedIcon;
-  BarItem({
-    required this.filledIcon,
-    required this.outlinedIcon,
-  });
+
+//Button label
+  final String label;
+
+  BarItem(
+      {required this.filledIcon,
+      required this.outlinedIcon,
+      required this.label});
 }

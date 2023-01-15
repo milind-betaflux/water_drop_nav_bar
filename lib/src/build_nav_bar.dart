@@ -32,19 +32,15 @@ class WaterDropNavBar extends StatefulWidget {
   /// [MediaQuery.of(context).padding.bottom] value.
   final double? bottomPadding;
 
-  //Tab label
-  final String label;
-
-  //font size for label
+  //font size
   final double fontSize;
 
   const WaterDropNavBar({
     required this.barItems,
     required this.selectedIndex,
     required this.onItemSelected,
-    this.bottomPadding,
-    required this.label,
     required this.fontSize,
+    this.bottomPadding,
     this.backgroundColor = Colors.white,
     this.waterDropColor = const Color(0xFF5B75F0),
     this.iconSize = 28,
@@ -90,9 +86,8 @@ class _WaterDropNavBarState extends State<WaterDropNavBar>
   @override
   Widget build(BuildContext context) {
     final int selectedIndex = widget.selectedIndex;
-    final Color backgroundColor = widget.backgroundColor;
-    final String label = widget.label;
     final double fontSize = widget.fontSize;
+    final Color backgroundColor = widget.backgroundColor;
     final Color dropColor = widget.waterDropColor;
     final List<BarItem> items = widget.barItems;
     final double iconSize = widget.iconSize;
@@ -127,9 +122,9 @@ class _WaterDropNavBarState extends State<WaterDropNavBar>
                       controller: _controller,
                       selectedIcon: item.filledIcon,
                       unslectedIcon: item.outlinedIcon,
-                      onPressed: () => _onTap(index),
-                      label: label,
+                      label: item.label,
                       fontSize: fontSize,
+                      onPressed: () => _onTap(index),
                     );
                   },
                 ).toList(),
