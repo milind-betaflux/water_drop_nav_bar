@@ -15,6 +15,8 @@ class BuildIconButton extends StatelessWidget {
   final Color barColor;
   final double bottomPadding;
   final double barHeight;
+  final String label;
+  final double fontSize;
 
   double _bottomIconScale() => seletedIndex == index
       ? Tween<double>(begin: 1.0, end: 0.7)
@@ -58,6 +60,8 @@ class BuildIconButton extends StatelessWidget {
     required this.barColor,
     required this.bottomPadding,
     required this.barHeight,
+    required this.label,
+    required this.fontSize,
     Key? key,
   }) : super(key: key);
 
@@ -89,6 +93,19 @@ class BuildIconButton extends StatelessWidget {
                         unslectedIcon,
                         size: iconSize,
                         color: inactiveColor,
+                      )),
+                )),
+            Transform.scale(
+                scale: _bottomIconScale(),
+                child: Opacity(
+                  opacity: controller.value > 0.8 && seletedIndex == index
+                      ? 0.0
+                      : 1.0,
+                  child: Transform.scale(
+                      scaleY: -1,
+                      child: Text(
+                        label,
+                        style: TextStyle(fontSize: fontSize, color: color),
                       )),
                 )),
             Transform.scale(

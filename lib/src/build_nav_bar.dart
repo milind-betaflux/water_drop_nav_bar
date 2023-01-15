@@ -32,11 +32,19 @@ class WaterDropNavBar extends StatefulWidget {
   /// [MediaQuery.of(context).padding.bottom] value.
   final double? bottomPadding;
 
+  //Tab label
+  final String label;
+
+  //font size for label
+  final double fontSize;
+
   const WaterDropNavBar({
     required this.barItems,
     required this.selectedIndex,
     required this.onItemSelected,
     this.bottomPadding,
+    required this.label,
+    required this.fontSize,
     this.backgroundColor = Colors.white,
     this.waterDropColor = const Color(0xFF5B75F0),
     this.iconSize = 28,
@@ -83,6 +91,8 @@ class _WaterDropNavBarState extends State<WaterDropNavBar>
   Widget build(BuildContext context) {
     final int selectedIndex = widget.selectedIndex;
     final Color backgroundColor = widget.backgroundColor;
+    final String label = widget.label;
+    final double fontSize = widget.fontSize;
     final Color dropColor = widget.waterDropColor;
     final List<BarItem> items = widget.barItems;
     final double iconSize = widget.iconSize;
@@ -90,52 +100,52 @@ class _WaterDropNavBarState extends State<WaterDropNavBar>
     final double bottomPadding =
         widget.bottomPadding ?? MediaQuery.of(context).padding.bottom;
     final double barHeight = 60 + bottomPadding;
-    return Transform.scale(
-        scaleY: -1,
-        child: Container(
-          height: barHeight,
-          color: backgroundColor,
-          child: Stack(
-            children: <Widget>[
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: AnimatedBuilder(
-                  animation: _controller,
-                  builder: (_, __) => Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    // crossAxisAlignment: CrossAxisAlignment.end,
-                    children: items.map(
-                      (BarItem item) {
-                        final int index = items.indexOf(item);
-                        return BuildIconButton(
-                          bottomPadding: bottomPadding,
-                          barHeight: barHeight,
-                          barColor: backgroundColor,
-                          inactiveColor: inactiveIconColor,
-                          color: dropColor,
-                          index: index,
-                          iconSize: iconSize,
-                          seletedIndex: selectedIndex.toInt(),
-                          controller: _controller,
-                          selectedIcon: item.filledIcon,
-                          unslectedIcon: item.outlinedIcon,
-                          onPressed: () => _onTap(index),
-                        );
-                      },
-                    ).toList(),
-                  ),
-                ),
+    return Container(
+      height: barHeight,
+      color: backgroundColor,
+      child: Stack(
+        children: <Widget>[
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: AnimatedBuilder(
+              animation: _controller,
+              builder: (_, __) => Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                // crossAxisAlignment: CrossAxisAlignment.end,
+                children: items.map(
+                  (BarItem item) {
+                    final int index = items.indexOf(item);
+                    return BuildIconButton(
+                      bottomPadding: bottomPadding,
+                      barHeight: barHeight,
+                      barColor: backgroundColor,
+                      inactiveColor: inactiveIconColor,
+                      color: dropColor,
+                      index: index,
+                      iconSize: iconSize,
+                      seletedIndex: selectedIndex.toInt(),
+                      controller: _controller,
+                      selectedIcon: item.filledIcon,
+                      unslectedIcon: item.outlinedIcon,
+                      onPressed: () => _onTap(index),
+                      label: label,
+                      fontSize: fontSize,
+                    );
+                  },
+                ).toList(),
               ),
-              BuildRunningDrop(
-                itemCount: items.length,
-                controller: _controller,
-                selectedIndex: selectedIndex,
-                previousIndex: _previousIndex,
-                color: dropColor,
-              )
-            ],
+            ),
           ),
-        ));
+          BuildRunningDrop(
+            itemCount: items.length,
+            controller: _controller,
+            selectedIndex: selectedIndex,
+            previousIndex: _previousIndex,
+            color: dropColor,
+          )
+        ],
+      ),
+    );
   }
 
   @override
