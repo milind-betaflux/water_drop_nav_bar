@@ -8,6 +8,7 @@ class BuildRunningDrop extends StatelessWidget {
   final int previousIndex;
   final Color color;
   final int itemCount;
+  final bool centerBtnClick;
   const BuildRunningDrop({
     Key? key,
     required this.controller,
@@ -15,6 +16,7 @@ class BuildRunningDrop extends StatelessWidget {
     required this.previousIndex,
     required this.color,
     required this.itemCount,
+    required this.centerBtnClick,
   }) : super(key: key);
 
   @override
@@ -25,8 +27,24 @@ class BuildRunningDrop extends StatelessWidget {
       animation: controller,
       builder: (_, __) => Transform.translate(
         offset: Tween<Offset>(
-                begin: Offset(previousIndex * maxElementWidth, 0),
-                end: Offset(selectedIndex * maxElementWidth, 0))
+                begin: centerBtnClick == true
+                    ? Offset(previousIndex * maxElementWidth, 0)
+                    : ((selectedIndex == 3 && previousIndex == 2) ||
+                            (selectedIndex == 1 && previousIndex == 2))
+                        ? Offset(previousIndex + 3 * maxElementWidth, 0)
+                        : ((selectedIndex == 2 && previousIndex == 3) ||
+                                (selectedIndex == 1 && previousIndex == 3))
+                            ? Offset(previousIndex + 4 * maxElementWidth, 0)
+                            : (previousIndex == 4)
+                                ? Offset(previousIndex + 2 * maxElementWidth, 0)
+                                : Offset(previousIndex * maxElementWidth, 0),
+                end: centerBtnClick == true
+                    ? Offset(selectedIndex + 2 * maxElementWidth, 0)
+                    : selectedIndex == 2
+                        ? Offset(selectedIndex + 3 * maxElementWidth, 0)
+                        : (selectedIndex == 3)
+                            ? Offset(selectedIndex + 4 * maxElementWidth, 0)
+                            : Offset(selectedIndex * maxElementWidth, 0))
             .animate(
               CurvedAnimation(
                 parent: controller,

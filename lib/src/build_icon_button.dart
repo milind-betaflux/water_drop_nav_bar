@@ -69,12 +69,17 @@ class BuildIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final MediaQueryData mediaQueryData = MediaQuery.of(context);
     final double deviceWidth = mediaQueryData.size.width;
-    final double maxElementWidth = deviceWidth / 4;
+    final double maxElementWidth = deviceWidth / 5;
     return GestureDetector(
       onTap: onPressed,
       child: Container(
         width: maxElementWidth,
         height: barHeight,
+        margin: index == 1
+            ? EdgeInsets.fromLTRB(0, 0, 40, 0)
+            : index == 2
+                ? EdgeInsets.fromLTRB(40, 0, 0, 0)
+                : EdgeInsets.fromLTRB(0, 0, 0, 0),
         color: barColor,
         padding: EdgeInsets.only(bottom: bottomPadding),
         child: Stack(
@@ -88,25 +93,24 @@ class BuildIconButton extends StatelessWidget {
                       ? 0.0
                       : 1.0,
                   child: Transform.scale(
-                      scaleY: -1,
-                      child: Icon(
-                        unslectedIcon,
-                        size: iconSize,
-                        color: inactiveColor,
-                      )),
-                )),
-            Transform.scale(
-                scale: _bottomIconScale(),
-                child: Opacity(
-                  opacity: controller.value > 0.8 && seletedIndex == index
-                      ? 0.0
-                      : 1.0,
-                  child: Transform.scale(
-                      scaleY: -1,
-                      child: Text(
-                        label,
-                        style: TextStyle(fontSize: fontSize, color: color),
-                      )),
+                    scaleY: -1,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 0.0, 0, 0.0),
+                      child: Column(
+                        children: [
+                          Icon(
+                            unslectedIcon,
+                            size: iconSize,
+                            color: inactiveColor,
+                          ),
+                          Text(
+                            label,
+                            style: TextStyle(fontSize: fontSize, color: color),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
                 )),
             Transform.scale(
               scale: _topIconScale(),
@@ -120,10 +124,22 @@ class BuildIconButton extends StatelessWidget {
                         : 0.0,
                     child: Transform.scale(
                       scaleY: -1,
-                      child: Icon(
-                        selectedIcon,
-                        size: iconSize,
-                        color: color,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0.0, 0, 0.0),
+                        child: Column(
+                          children: [
+                            Icon(
+                              selectedIcon,
+                              size: iconSize,
+                              color: color,
+                            ),
+                            Text(
+                              label,
+                              style:
+                                  TextStyle(fontSize: fontSize, color: color),
+                            )
+                          ],
+                        ),
                       ),
                     )),
               ),
